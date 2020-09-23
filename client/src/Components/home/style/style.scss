@@ -1,0 +1,25 @@
+.home-container{
+    margin: 0px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    text-align: center;
+    background-color: lightgrey;
+}
+
+.movie-count-border{
+    background-color: green;
+    color: whitesmoke;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.home-container {
+    .label-movie-count{
+        padding: 10px;
+        margin: 0px;
+        font-size: 25px;
+    }
+}

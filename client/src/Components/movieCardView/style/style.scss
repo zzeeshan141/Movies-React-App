@@ -1,0 +1,63 @@
+.movie-card-container{
+    width: 200px;
+    height: 450px;
+    background-color: whitesmoke;
+    margin: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    .movie-image{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .movie-title{
+        text-align: center;
+        font-size: 20px;
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        a:hover{
+            text-decoration: none;
+            color: darkblue;
+        }
+        p{
+            margin: 0px;
+            margin-top: 5px;
+            padding: 0px;
+            max-width: 235px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    .movie-row{
+        display: flex;
+        margin-top: 10px;
+        img{
+            height: 20px;
+            width: 20px;
+            margin-right: 5px;
+        }
+        p{
+            margin: 0px;
+            margin-top: 2px;
+            padding: 0px;
+        }
+    }
+    button{
+        height: 40px;
+        width: 100%;
+        border-radius: 5px;
+        background-color: #304fff;
+        color: whitesmoke;
+        font-size: 15px;
+        margin-top: 20px;
+    }
+}
+
+.movie-card-container:hover
+{
+  transition: 0.1s;
+  box-shadow: 0 0 6px black;
+  height: 450px;
+}
