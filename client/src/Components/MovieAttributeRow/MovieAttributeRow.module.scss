@@ -1,0 +1,27 @@
+.movie-time-row{
+    display: flex;
+    margin-bottom: 5px;
+    p{
+        margin: 0px;
+        padding: 5px;
+    }
+    .movie-detail-attr-main{
+        display: flex;
+    }
+    .movie-detail-attr-name{
+        background-color: #c6c8ca;
+        font-weight: bold;
+        padding: 5px;
+    }
+    .movie-detail-attr-value{
+        
+        padding-left: 0px;
+        padding-top: 3px;
+        background-color: white;
+        border: solid;
+        border-width: thin;
+        border-color: #e1e2e3;
+    }
+
+    
+}

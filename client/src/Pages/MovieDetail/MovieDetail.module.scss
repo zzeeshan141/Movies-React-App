@@ -1,0 +1,48 @@
+.movie-detail-main-container{
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 50px;
+    background-color: #e9ecef;
+    button{
+        width: 82%;
+        height: 40px;
+        border-radius: 5px;
+        background-color: #304fff;
+        color: whitesmoke;
+        font-size: 15px;
+        margin-top: 40px;
+        margin-left: 175px;
+        margin-bottom: 50px;
+    }
+    
+    .movie-detail-container{
+        display: flex;
+        .left-main{
+            width: 35%;
+            img{
+                height: 400px;
+                width: 250px;
+                display: block;
+                margin-right: 20px;
+                margin-left: auto;
+                margin-top: 50px;
+            }
+        }
+        .right-main{
+            width: 65%;
+            padding-right: 80px;
+            .movie-title{
+                margin: 0px;
+                padding: 0px;
+                font-size: 40px;
+            }
+            .movie-overview-heading{
+                margin: 0px;
+                padding: 0px;
+                margin-top: 5px;
+                font-size: 25px;
+            }
+            
+        }
+    }
+}
