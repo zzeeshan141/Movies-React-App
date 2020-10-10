@@ -48,10 +48,16 @@
         height: 40px;
         width: 100%;
         border-radius: 5px;
-        background-color: #304fff;
-        color: whitesmoke;
         font-size: 15px;
         margin-top: 20px;
+    }
+    button:enabled{
+        background-color: #304fff;
+        color: whitesmoke;
+    }
+    button:disabled{
+        background-color: gray;
+        color: whitesmoke;
     }
 }
 

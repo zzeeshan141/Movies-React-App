@@ -1,52 +1,34 @@
-import React, { Component} from 'react';
-import debounce from 'lodash.debounce';
+import React, { useState, useEffect} from 'react';
 import styles from './LabelAndInput.module.scss';
 
-class LabelAndInput extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            labelText: '',
-            inputText: '',
-            placeholder: ''
-        }
-        this.onChangeDebounced = debounce(this.onChangeDebounced, 1500);
-    }
+const LabelAndInput = (props) => {
 
-    componentDidMount(){
-        this.setState({
-            labelText: this.props.labelText,
-            placeholder: this.props.placeholder,
-            inputText: this.props.value
-        });
-    }
+    const [labelText, setLabelText] = useState('');
+    const [inputText, setInputText] = useState('');
+    const [placeholder, setPlaceholder] = useState('');
 
-    handleInputChange(e){
-        let tempValue = e.target.value;
-        this.setState({
-            inputText: tempValue
-        })
-        
-        this.onChangeDebounced(tempValue)
-      }
-
-    onChangeDebounced(value){
-        this.props.onTitleChange(value);
-    }
+    useEffect(() => {
+        setLabelText(props.labelText);
+        setInputText(props.value);
+        setPlaceholder(props.placeholder);
+    }, []);
 
 
-    render(){
-        return(
-            <div className={styles["label-input-container"]}>
-                <p>
-                    {this.state.labelText} 
-                    <span>
-                        <input type="text" value={this.state.inputText} placeholder={this.state.placeholder} onChange={(e) => {this.handleInputChange(e)}}></input>
-                    </span>
-                </p>
-            </div>
-        );
-    }
+    useEffect(() => {
+        const timeOutId = setTimeout(() => {props.onTitleChange(inputText)}, 1500);
+        return () => clearTimeout(timeOutId);
+    }, [inputText]);
+
+    return(
+        <div className={styles["label-input-container"]}>
+            <p>
+                {labelText} 
+                <span>
+                    <input type="text" value={inputText} placeholder={placeholder} onChange={(e) => setInputText(e.target.value)}></input>
+                </span>
+            </p>
+        </div>
+    );
 };
 
 export default LabelAndInput;

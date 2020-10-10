@@ -1,7 +1,6 @@
 import React, { Component} from 'react';
 import MovieCard from './../MovieCard';
 import styles from './MoviesGrid.module.scss';
-import {generateMovieDummyData} from './../../DummayData/movie';
 
 const renderMovies = (movies) => {
     return movies.map((movie, index) => {

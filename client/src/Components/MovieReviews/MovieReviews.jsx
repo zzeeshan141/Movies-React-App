@@ -1,32 +1,30 @@
 import React, { Component} from 'react';
-import styles from './MovieReviews.module.scss';
+import styles from './MovieReviews.module.scss'; // do not delete this line
 
-class MovieReviews extends Component{
+function renderReviews(reviews){
+    return reviews.map((review, index) => {
+        return (<tr key={index}>
+            <td>{review.author}</td>
+            <td>{review.content}</td>
+            <td><a href={review.url}>Full Review</a></td>
+        </tr>)
+    })
+}
 
-    renderReviews(reviews){
-        return reviews.map((review, index) => {
-            return (<tr key={index}>
-                <td>{review.author}</td>
-                <td>{review.content}</td>
-                <td><a href={review.url}>Full Review</a></td>
-            </tr>)
-        })
-    }
+const MovieReviews = ({reviews}) => {
 
-    render(){
-        return (
-            <table>
-                <tbody>
-                    <tr>
-                        <th>Author</th>
-                        <th>Excerpt</th>
-                        <th>More</th>
-                    </tr>
-                    {this.renderReviews(this.props.reviews)}
-                </tbody>
-            </table>
-        );
-    }
+    return (
+        <table>
+            <tbody>
+                <tr>
+                    <th>Author</th>
+                    <th>Excerpt</th>
+                    <th>More</th>
+                </tr>
+                {renderReviews(reviews)}
+            </tbody>
+        </table>
+    );
 };
 
 export default MovieReviews;
