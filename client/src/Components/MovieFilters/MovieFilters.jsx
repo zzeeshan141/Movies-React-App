@@ -3,7 +3,7 @@ import LabelAndInput from './../shared/LabelAndInput';
 import LabelAndSelect from './../shared/LabelAndSelect';
 import styles from './MovieFilters.module.scss';
 
-const MovieFilters = ({filtersRefData, onFilterChange}) => {
+const MovieFilters = ({filtersRefData, onFilterChange, filterCurrentState}) => {
     const [titleSearch, setTitleSearch] = useState('');
     const [genre, setGenre] = useState(0);
     const [releaseDate, setReleaseDate] = useState(0);
@@ -55,7 +55,7 @@ const MovieFilters = ({filtersRefData, onFilterChange}) => {
                 <LabelAndSelect labelText="Release Year: " useDefaultOption={true} items={filtersRefData.year} onChange={newReleaseDate => setReleaseDate(newReleaseDate.toLowerCase() === 'all' ? 0 : parseInt(newReleaseDate))}/>
                 <LabelAndSelect labelText="Ratings: " useDefaultOption={true} items={filtersRefData.ratings} onChange={newRating => setRating(newRating.toLowerCase() === 'all' ? 0 : parseInt(newRating))}/>
                 <LabelAndSelect labelText="Sort By: " useDefaultOption={false} items={filtersRefData.sortBy} onChange={(newSortBy, newSortById) => setSortBy(parseInt(newSortById))}/>
-                <LabelAndSelect labelText="Language: " useDefaultOption={true} items={filtersRefData.languages}  onChange={newLangauge => setLanguage(newLangauge.toLowerCase() === 'all' ? '' : newLangauge)}/>
+                <LabelAndSelect labelText="Language: " useDefaultOption={true} items={filtersRefData.languages} onChange={newLangauge => setLanguage(newLangauge.toLowerCase() === 'all' ? '' : newLangauge)}/>
             </div>
         </div>
     );

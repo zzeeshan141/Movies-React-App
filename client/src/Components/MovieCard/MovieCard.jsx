@@ -8,8 +8,6 @@ import {ImageUrlPrefix} from './../../API/APIConfig';
 import {FavouriteMoviesContext} from './../../App';
 
 function isMovieMarkedFavourite(favouriteMovies, movie){
-    console.log('inside isMovieMarkedFavourite');
-    console.log(favouriteMovies);
     return favouriteMovies != undefined 
         ? favouriteMovies.some((movieItem) => movieItem.id === movie.id)
         : false;

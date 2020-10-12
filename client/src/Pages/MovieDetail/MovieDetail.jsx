@@ -1,48 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import styles from './MovieDetail.module.scss';
 import MovieDetailRow from './../../Components/MovieAttributeRow';
 import MovieReviews from './../../Components/MovieReviews';
+import { ImageUrlPrefix } from './../../API/APIConfig';
+import PropTypes from 'prop-types';
+import {extractPropertiedForRowOne, 
+    extractPropertiedForRowTwo, 
+    extractPropertiedForRowThree, 
+    extractPropertiedForRowFour} from './MovieDetail.utility'
 
-import { BaseUrl, ApiKey, ImageUrlPrefix } from './../../API/APIConfig';
-
-
-function extractPropertiedForRowOne(movie){
-    return {'Runtime (min.)': movie.runtime, 'Release Date': movie.release_date};
-}
-
-function extractPropertiedForRowTwo(movie){
-    return {'Genre': movie.genres.map(genre => {return genre.name})};
-}
-
-function extractPropertiedForRowThree(movie){
-    return {'Spoken Langauge': movie.spoken_languages.map(language => {return language.name})};
-}
-
-function extractPropertiedForRowFour(movie){
-    return {'Production Companies': movie.production_companies.map(company => {return company.name})};
-}
-
-const MovieDetail = ({match}) => {
-
+const MovieDetail = (props) => {
     const [movie, setMovie] = useState(undefined);
     const [reviews, setReviews] = useState([]);
     const [showReviews, setShowReviews] = useState(false);
 
     useEffect(() => {
-        axios.get(BaseUrl + '/movie/' + match.params.id + '?api_key=' + ApiKey)
-        .then(res => {
-            setMovie(res.data);
-        });
+        //fetch movie detail by id
+        props.getMovieDetail(props.match.params.id);
 
-        axios.get(BaseUrl + '/movie/' + match.params.id + '/reviews?api_key=' + ApiKey)
-        .then(res => {
-            setReviews(res.data.results); 
-        });
+        //fetch movie reviews by movie is
+        props.getMovieReviews(props.match.params.id);
     }, []);
 
+    useEffect(() => {
+        if(props.movie != undefined)
+            setMovie(props.movie);
+    }, [props.movie]);
 
-    if(movie != undefined){
+    useEffect(() => {
+        setReviews(props.movieReview);
+    }, [props.movieReview]);
+
+    if(movie != undefined && Object.keys(movie).length > 0){
         return(
             <div className={styles["movie-detail-main-container"]}>
                 <div className={styles["movie-detail-container"]}>
@@ -69,6 +58,20 @@ const MovieDetail = ({match}) => {
             <h2>Loading...</h2>
         </div>
     );
+};
+
+MovieDetail.propTypes = {
+    movie: PropTypes.object,
+    movieReview: PropTypes.array,
+    isLoading: PropTypes.bool,
+    isError: PropTypes.bool,
+};
+  
+MovieDetail.defaultProps = {
+    movie: {},
+    movieReview: [],
+    isLoading: true,
+    isError: false,
 };
 
 export default MovieDetail;

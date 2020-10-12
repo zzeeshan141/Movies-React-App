@@ -14,7 +14,6 @@ const App = () => {
     const [favouriteMovies, setFavouriteMovies] = useState([]);
     const setFavouriteMoviesLocal = useCallback((movie) => {
         setFavouriteMovies([...favouriteMovies, movie]);
-        console.log(favouriteMovies);
     }, [favouriteMovies])
   
     return (
@@ -23,13 +22,13 @@ const App = () => {
               <div className="main-div">
                   <Header />
                   <Switch>
-                      <FavouriteMoviesContext.Provider value={{AddFavouriteMovies: setFavouriteMoviesLocal, movies: favouriteMovies}}>
-                          <Route path="/" exact component={Home}></Route>
-                          <Route path="/favourites" exact component={FavouriteMovies}></Route>
-                      </FavouriteMoviesContext.Provider>
-                      <Route path="/upcomingmovies" exact component={UpcomingMovies}></Route>
-                      <Route path="/search" exact component={Search}></Route>
-                      <Route path="/movie/:id" exact component={MovieDetail}></Route>
+                        <FavouriteMoviesContext.Provider value={{AddFavouriteMovies: setFavouriteMoviesLocal, movies: favouriteMovies}}>
+                            <Route path="/" exact component={Home}></Route>
+                            <Route path="/favourites" exact component={FavouriteMovies}></Route>
+                            <Route path="/upcomingmovies" exact component={UpcomingMovies}></Route>
+                            <Route path="/search" exact component={Search}></Route>
+                            <Route path="/movie/:id" exact component={MovieDetail}></Route>
+                        </FavouriteMoviesContext.Provider>
                   </Switch>
               </div>
           </Router>

@@ -1,45 +1,15 @@
-import React, { useEffect, useState, useRef} from 'react';
-import axios from 'axios';
+import React, { useEffect, useState} from 'react';
 import MovieFilter from './../../Components/MovieFilters';
 import MoviesGrid from './../../Components/MoviesGrid';
-import {getParametersString} from './Home.container.js';
-import { BaseUrl, ApiKey } from './../../API/APIConfig'
 import styles from './Home.module.scss';
 import {generateRatingDummyData} from './../../DummayData/rating';
 import {generateSortByDummyData} from './../../DummayData/sortBy';
 import {generateLanguageDummyData} from './../../DummayData/language';
 import {generateReleaseYearDummyData} from './../../DummayData/releaseDate';
+import {validateFilterValueChanges, usePrevious} from './Home.utility';
+import PropTypes from 'prop-types';
 
-
-function validateFilterValueChanges(prevFilters, newFilters){
-    if(prevFilters != undefined){
-        if(prevFilters.titleSearch != newFilters.titleSearch)
-            return true;
-        if(prevFilters.genre != newFilters.genre)
-            return true;
-        if(prevFilters.releaseDate != newFilters.releaseDate)
-            return true;
-        if(prevFilters.rating != newFilters.rating)
-            return true;
-        if(prevFilters.language != newFilters.language)
-            return true;
-        if(prevFilters.sortBy != newFilters.sortBy)
-            return true;
-    }
-    
-    return false;
-}
-
-function usePrevious(value) {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-}
-
-
-const Home = () => {
+const Home = (props) => {
 
     const [filters, setFilters] = useState({
         titleSearch: '',
@@ -61,44 +31,51 @@ const Home = () => {
 
     useEffect(() => {
         //loading genres from TMDB api
-        axios.get(BaseUrl + '/genre/movie/list?api_key=' + ApiKey)
-        .then(res => {
-            let tempFiltersRefData = filtersRefData;
-            let tempGenres = res.data.genres.map(genre => {
-                return {id: genre.id, value: genre.name}
-            });
-            tempFiltersRefData.genres = tempGenres;
-            setFiltersRefData(tempFiltersRefData);
-        });
+        props.getAllGenres();
 
-        axios.get(BaseUrl + '/discover/movie?api_key=' + ApiKey + getParametersString(filters))
-        .then(res => {
-            setMovies(res.data.results);
-        });
+        //loading popular movies from TMDB api
+        props.searchMovies(filters);
     }, []);
 
     useEffect(() => {
-        if(filters.titleSearch && filters.titleSearch != filters.titleSearch){
-            axios.get(BaseUrl + '/search/movie?api_key=' + ApiKey + `&language=en-US&query=${filters.titleSearch.replace(' ', '%20')}&page=1&include_adult=false`)
-            .then(res => {
-                setMovies(res.data.results);
-            });
-        }
-        else if(validateFilterValueChanges(prevFilters, filters)){
-            axios.get(BaseUrl + '/discover/movie?api_key=' + ApiKey + getParametersString(filters))
-            .then(res => {
-                setMovies(res.data.results);
-            });
-        }
+        setMovies(props.movies);
+    }, [props.movies]);
+
+    useEffect(() => {
+        let tempFiltersRefData = filtersRefData;
+        tempFiltersRefData.genres = props.genres;
+        setFiltersRefData(tempFiltersRefData);
+    }, [props.genres]);
+
+    useEffect(() => {
+        //loading popular movies from TMDB api
+        if(validateFilterValueChanges(prevFilters, filters))
+            props.searchMovies(filters);
     }, [filters]);
 
+    //we can use isLoading here to show some splash/loading screen
+    // but for that we also need to maintain filter state on UI.
     return(
         <div className={styles["home-container"]}>
             <p className={styles["label-movie-count"]}>All Movies: <span className={styles["movie-count-border"]}>{movies.length}</span></p>
-            <MovieFilter filters={filters} filtersRefData={filtersRefData} onFilterChange={(newFilters => setFilters(newFilters))}/>
+            <MovieFilter filters={filters} filtersRefData={filtersRefData} filterCurrentState={filters} onFilterChange={(newFilters => setFilters(newFilters))}/>
             <MoviesGrid movies={movies}/>
         </div>
     );
+};
+
+Home.propTypes = {
+    movies: PropTypes.array,
+    genres: PropTypes.array,
+    isLoading: PropTypes.bool,
+    isError: PropTypes.bool,
+};
+  
+Home.defaultProps = {
+    movies: [],
+    genres: [],
+    isLoading: true,
+    isError: false,
 };
 
 export default Home;
